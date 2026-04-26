@@ -11,12 +11,15 @@ export default function Header() {
   const {pathname} = useLocation()
 
   const isHome = useMemo(() => pathname === '/', [pathname])
-  console.log(isHome);
+  // console.log(isHome);
   
-  const fetchCategories = useAppStore((state) => state.fetchCategories)
+  const fetchCategoriesAPIResponse = useAppStore((state) => state.fetchCategories)
+  // const categories = useAppStore((state) => state.categories)
+  // console.log('Desde Header, tomando resp API de Store:', categories);
+  
   useEffect(() => {
-    fetchCategories()
-  }, [])
+    fetchCategoriesAPIResponse()
+  }, [fetchCategoriesAPIResponse])
   
   return (
     <header className={ isHome ? 'bg-header bg-center bg-cover' : 'bg-slate-800'}>
