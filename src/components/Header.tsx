@@ -1,7 +1,8 @@
 // * rfc para cargar componente basico
 // import { Link, NavLink } from "react-router-dom"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { NavLink, useLocation } from "react-router-dom"
+import { useAppStore } from "../stores/useAppStore";
 // import { Link } from "react-router-dom"
 
 
@@ -12,6 +13,10 @@ export default function Header() {
   const isHome = useMemo(() => pathname === '/', [pathname])
   console.log(isHome);
   
+  const fetchCategories = useAppStore((state) => state.fetchCategories)
+  useEffect(() => {
+    fetchCategories()
+  }, [])
   
   return (
     <header className={ isHome ? 'bg-header bg-center bg-cover' : 'bg-slate-800'}>
