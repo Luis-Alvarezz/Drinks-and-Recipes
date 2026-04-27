@@ -16,6 +16,7 @@ export default function Header() {
   const fetchCategoriesAPIResponse = useAppStore((state) => state.fetchCategories)
   // const categories = useAppStore((state) => state.categories)
   // console.log('Desde Header, tomando resp API de Store:', categories);
+  const categories = useAppStore(state => state.categories)
   
   useEffect(() => {
     fetchCategoriesAPIResponse()
@@ -82,6 +83,16 @@ export default function Header() {
                   className="p-3 w-full rounded-lg focus:outline-none"
                 >
                   <option value="">-- Seleccione una categoría--</option>
+                  {
+                    // * OPC 1:
+                    // categories.drinks.map(category => (
+                    //   <option value="">{category.strCategory}</option>
+                    // ))
+                    // * OPC 2:
+                     categories.drinks.map(category => {
+                     return <option value={category.strCategory} key={category.strCategory}>{category.strCategory}</option>
+                    })
+                  }
                 </select>
             </div>
 
