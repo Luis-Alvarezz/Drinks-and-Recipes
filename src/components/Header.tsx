@@ -1,6 +1,6 @@
 // * rfc para cargar componente basico
 // import { Link, NavLink } from "react-router-dom"
-import { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { NavLink, useLocation } from "react-router-dom"
 import { useAppStore } from "../stores/useAppStore";
 // import { Link } from "react-router-dom"
@@ -17,10 +17,24 @@ export default function Header() {
   // const categories = useAppStore((state) => state.categories)
   // console.log('Desde Header, tomando resp API de Store:', categories);
   const categories = useAppStore(state => state.categories)
+  // ! Paso 1: Crear el STATE para los campos, en base a los 'name' del Formulario
+  const [searchFilters, setSearchFilters] = useState({
+    // * Son los name del Formulario:
+    ingredient: '',
+    category: ''
+  })
   
   useEffect(() => {
     fetchCategoriesAPIResponse()
   }, [fetchCategoriesAPIResponse])
+
+  // ! Paso 2: Metodo para escribir en el STATE
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement, HTMLSelectElement>) => {
+    setSearchFilters({
+      ...searchFilters,
+      [e.target.name]: e.target.value
+    })
+  }
   
   return (
     <header className={ isHome ? 'bg-header bg-center bg-cover' : 'bg-slate-800'}>
@@ -66,21 +80,26 @@ export default function Header() {
                   name="ingredient" // * Para colocarlo en el STATE
                   className="p-3 w-full rounded-lg focus:outline-none"
                   placeholder="Nombre o Ingrediente. Ej. Vodka, Tequila, Cafe, etc."
+                  // onChange={e => } // * Para tomar el TYPE -> React.ChangeEvent<HTMLInputElement, HTMLInputElement>
+                  onChange={handleChange}
+                  value={searchFilters.ingredient}
                 />
             </div>
 
             <div className="space-y-4">
               <label 
-                htmlFor="ingredient"
+                htmlFor="category"
                 className="text-white uppercase font-extrabold text-lg"
                 >
                   Categoria
                 </label>
 
                 <select
-                  id="ingredient"
-                  name="ingredient" // * Para colocarlo en el STATE
+                  id="category"
+                  name="category" // * Para colocarlo en el STATE
                   className="p-3 w-full rounded-lg focus:outline-none"
+                  onChange={handleChange}
+                  value={searchFilters.category}
                 >
                   <option value="">-- Seleccione una categoría--</option>
                   {
