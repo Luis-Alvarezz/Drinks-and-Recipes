@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { NavLink, useLocation } from "react-router-dom"
 import { useAppStore } from "../stores/useAppStore";
+import ErrorMessage from "./ErrorMessage";
 // import { Link } from "react-router-dom"
 
 
@@ -18,11 +19,15 @@ export default function Header() {
   // console.log('Desde Header, tomando resp API de Store:', categories);
   const categories = useAppStore(state => state.categories)
   // ! Paso 1: Crear el STATE para los campos, en base a los 'name' del Formulario
-  const [searchFilters, setSearchFilters] = useState({
+  const initialState = {
     // * Son los name del Formulario:
     ingredient: '',
     category: ''
-  })
+  }
+  const [searchFilters, setSearchFilters] = useState(initialState)
+  //  ! Paso 4: STATE Manejo de errores
+  const [error, setError] = useState(initialState)
+
   
   useEffect(() => {
     fetchCategoriesAPIResponse()
@@ -34,6 +39,31 @@ export default function Header() {
       ...searchFilters,
       [e.target.name]: e.target.value
     })
+  }
+
+  // ! Paso 3: Metodo para trabajar con los campos del Formulario
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const currentError = {
+      ...initialState
+    }
+
+    if (searchFilters.category === '') {
+      currentError.category = 'La Categoría es Obligatoria'
+    }
+    if (searchFilters.ingredient === '') {
+      currentError.ingredient = 'El Ingrediente es Obligatorio'
+    }
+
+    if (Object.values(searchFilters).includes('')) {
+      setError(currentError)
+      setTimeout(() => {
+        setError(initialState)
+      }, 3000)
+    }
+
+    // * Consultar las recetas (API)
   }
   
   return (
@@ -65,7 +95,7 @@ export default function Header() {
         </div>
 
         { isHome && (
-          <form className="md:w-1/2 2xl:w-1/3 bg-orange-400 my-10 p-10 rounded-lg shadow space-y-6">
+          <form className="md:w-1/2 2xl:w-1/3 bg-orange-400 my-10 p-10 rounded-lg shadow space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <label 
                 htmlFor="ingredient"
@@ -84,6 +114,12 @@ export default function Header() {
                   onChange={handleChange}
                   value={searchFilters.ingredient}
                 />
+
+                {
+                  error.ingredient && (
+                    <ErrorMessage>{error.ingredient}</ErrorMessage>
+                  )
+                }
             </div>
 
             <div className="space-y-4">
@@ -113,6 +149,11 @@ export default function Header() {
                     })
                   }
                 </select>
+                {
+                  error.category && (
+                    <ErrorMessage> { error.category } </ErrorMessage>
+                  )
+                }
             </div>
 
             <input 
