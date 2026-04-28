@@ -29,7 +29,7 @@ export default function Header() {
   }, [fetchCategoriesAPIResponse])
 
   // ! Paso 2: Metodo para escribir en el STATE
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement, HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setSearchFilters({
       ...searchFilters,
       [e.target.name]: e.target.value
