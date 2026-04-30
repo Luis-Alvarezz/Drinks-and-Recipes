@@ -18,6 +18,8 @@ export default function Header() {
   // const categories = useAppStore((state) => state.categories)
   // console.log('Desde Header, tomando resp API de Store:', categories);
   const categories = useAppStore(state => state.categories)
+  const fetchSearchRecipies = useAppStore(state => state.fetchSearchRecipies)
+
   // ! Paso 1: Crear el STATE para los campos, en base a los 'name' del Formulario
   const initialState = {
     // * Son los name del Formulario:
@@ -61,9 +63,11 @@ export default function Header() {
       setTimeout(() => {
         setError(initialState)
       }, 3000)
+      return
     }
 
     // * Consultar las recetas (API)
+    fetchSearchRecipies(searchFilters)
   }
   
   return (
