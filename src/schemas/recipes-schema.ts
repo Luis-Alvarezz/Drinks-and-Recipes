@@ -6,3 +6,9 @@ export const CategoriesAPIResponseSchema = z.object({
     strCategory: z.string()
   }))
 })
+
+// ! 1.2 Creando el ESQUEMA para la API al obtener las Recetas
+export const SearchFilterAPIResponseSchema = z.object({
+  ingredient: z.string(),
+  category: z.string()
+})
