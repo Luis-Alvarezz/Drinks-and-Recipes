@@ -13,3 +13,14 @@ export const SearchFilterResponseSchema = z.object({
   category: z.string()
 })
 
+// ! 1.4 Creando ESQUEMA para respuesta interna de la API con cada Bebida
+export const DrinkAPIResponseSchema = z.object({
+  idDrink: z.string(),
+  strDrink: z.string(),
+  strDrinkThumb: z.string()
+})
+
+// ! 1.3.- Creando ESQUEMA para respuesta de API al obtener Bebidas
+export const DrinksAPIResponseSchema = z.object({
+  drinks: z.array(DrinkAPIResponseSchema)
+})
