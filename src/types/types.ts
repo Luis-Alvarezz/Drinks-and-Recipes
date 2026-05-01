@@ -1,5 +1,5 @@
 import z from "zod"
-import { CategoriesAPIResponseSchema, DrinksAPIResponseSchema, SearchFilterResponseSchema } from "../schemas/recipes-schema"
+import { CategoriesAPIResponseSchema, DrinkAPIResponseSchema, DrinksAPIResponseSchema, SearchFilterResponseSchema } from "../schemas/recipes-schema"
 
 // ! 2. Creando el INFERIR TYPE para la API al obtener las categorias
 export type CategoriesInfer = z.infer<typeof CategoriesAPIResponseSchema> // * Antes: Category[] -> Pero el arreglo viene dentro de la resp de la API
@@ -9,3 +9,6 @@ export type SearchFilterInfer = z.infer<typeof SearchFilterResponseSchema>
 
 // ! 3.1 Creando INFER TYPE para las Bebidas obtenidas por la API
 export type DrinksInfer = z.infer<typeof DrinksAPIResponseSchema>
+
+// ! 4.1 Creando INFER TYPE para componente DrinkCard y leer bebida por bebida
+export type DrinkInfer = z.infer<typeof DrinkAPIResponseSchema>
