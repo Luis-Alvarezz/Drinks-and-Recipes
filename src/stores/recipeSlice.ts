@@ -7,9 +7,11 @@ export type RecipiesSliceType = {
   categories: CategoriesInfer,
   drinksResAPI: DrinksInfer,
   selectedRecipie: RecipeInfer
+  modal: boolean
   fetchCategories: () => Promise<void>
   fetchSearchRecipies: (searchFilters: SearchFilterInfer) => Promise<void>
   selectRecipeID: (id: DrinkInfer['idDrink']) => Promise<void>
+  closeModal: () => void
 }
 
 export const createRecipiesSlice : StateCreator<RecipiesSliceType> = (set) => ({
@@ -24,6 +26,7 @@ export const createRecipiesSlice : StateCreator<RecipiesSliceType> = (set) => ({
 
   // selectedRecipie: {}, // * Necesita colocat TODAS las propiedades, para ello:
   selectedRecipie: {} as RecipeInfer,
+  modal: false,
 
   // * Acciones (DISPATCH)
   fetchCategories: async() => {
@@ -45,13 +48,22 @@ export const createRecipiesSlice : StateCreator<RecipiesSliceType> = (set) => ({
     }))
   },
 
+  // * Accion 3 - Consultar los detalles de una receta por medio la API
   selectRecipeID: async(drinkID) => {
     // console.log('Desde selectRecipeID', drinkID);
     const drinkDetails = await getDetailsRecipieByID(drinkID)
     // console.log('Descrpcion de bebida desde selectRecipeID', drinkDetails);
     set({
-      selectedRecipie: drinkDetails
+      selectedRecipie: drinkDetails,
+      modal: true
     })
-    
+  },
+
+  // * Accion 4.- Cerrar ventana modal
+  closeModal:() => {
+    set({
+      modal: false,
+      selectedRecipie: {} as RecipeInfer
+    })
   }
 })
