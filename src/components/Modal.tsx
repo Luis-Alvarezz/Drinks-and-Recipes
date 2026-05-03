@@ -69,9 +69,12 @@ export default function Modal() {
                   <Dialog.Title as="h3" className="text-gray-900 text-2xl font-extrabold my-5">
                     Ingredientes y Cantidades
                   </Dialog.Title>
-                  {
-                    renderIngredients()
-                  }
+
+                  <div className='mx-5'>
+                    {
+                      renderIngredients()
+                    }
+                  </div>
                   <Dialog.Title as="h3" className="text-gray-900 text-2xl font-extrabold my-5">
                     Instrucciones
                   </Dialog.Title>
