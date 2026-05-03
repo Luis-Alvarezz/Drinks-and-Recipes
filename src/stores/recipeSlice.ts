@@ -1,13 +1,15 @@
 import type { StateCreator } from "zustand"
-import { getCategories, getRecipies } from "../services/RecipeService"
-import type { CategoriesInfer, DrinksInfer, SearchFilterInfer } from "../types/types"
+import { getCategories, getDetailsRecipieByID, getRecipies } from "../services/RecipeService"
+import type { CategoriesInfer, DrinksInfer, SearchFilterInfer, DrinkInfer, RecipeInfer } from "../types/types"
 
 
 export type RecipiesSliceType = {
   categories: CategoriesInfer,
   drinksResAPI: DrinksInfer,
+  selectedRecipie: RecipeInfer
   fetchCategories: () => Promise<void>
   fetchSearchRecipies: (searchFilters: SearchFilterInfer) => Promise<void>
+  selectRecipeID: (id: DrinkInfer['idDrink']) => Promise<void>
 }
 
 export const createRecipiesSlice : StateCreator<RecipiesSliceType> = (set) => ({
@@ -19,6 +21,9 @@ export const createRecipiesSlice : StateCreator<RecipiesSliceType> = (set) => ({
   drinksResAPI: {
     drinks: []
   },
+
+  // selectedRecipie: {}, // * Necesita colocat TODAS las propiedades, para ello:
+  selectedRecipie: {} as RecipeInfer,
 
   // * Acciones (DISPATCH)
   fetchCategories: async() => {
@@ -38,5 +43,15 @@ export const createRecipiesSlice : StateCreator<RecipiesSliceType> = (set) => ({
     set(() => ({
       drinksResAPI: drinks
     }))
+  },
+
+  selectRecipeID: async(drinkID) => {
+    // console.log('Desde selectRecipeID', drinkID);
+    const drinkDetails = await getDetailsRecipieByID(drinkID)
+    // console.log('Descrpcion de bebida desde selectRecipeID', drinkDetails);
+    set({
+      selectedRecipie: drinkDetails
+    })
+    
   }
 })
