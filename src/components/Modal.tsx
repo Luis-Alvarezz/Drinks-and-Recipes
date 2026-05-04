@@ -80,6 +80,23 @@ export default function Modal() {
                   </Dialog.Title>
 
                   <p className='text-lg'>{selectedRecipie.strInstructions}</p>
+
+                  <div className='mt-5 flex justify-between gap-4'>
+                    <button
+                      type='button'
+                      className='w-full rounded-lg bg-[#c1121f] p-3 font-bold uppercase text-white shadow-sm hover:bg-[#780000]'
+                      onClick={closeModal}
+                    >
+                      Cerrar
+                    </button>
+                    <button
+                      type='button'
+                      className='w-full rounded-lg bg-orange-500 p-3 font-bold uppercase text-white shadow-sm hover:bg-orange-600'
+                      
+                    >
+                      Agregar a Favoritos
+                    </button>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
