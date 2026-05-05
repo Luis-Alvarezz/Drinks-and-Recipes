@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand"
 import type { RecipeInfer } from "../types/types"
 import { createRecipiesSlice, type RecipiesSliceType } from "./recipeSlice"
+import { createNotificationSlice, type NotificationSliceType } from "./notificationSlice"
 
 export type FavoritesSliceType = {
   favorites: RecipeInfer[] // * Array porque pueden ser 2 o mas favoritos
@@ -9,7 +10,7 @@ export type FavoritesSliceType = {
   loadFromStorage: () => void
 }
 
-export const createFavoritesSlice: StateCreator<FavoritesSliceType & RecipiesSliceType, [], [], FavoritesSliceType> = (set, get, api) => ({
+export const createFavoritesSlice: StateCreator<FavoritesSliceType & RecipiesSliceType & NotificationSliceType, [], [], FavoritesSliceType> = (set, get, api) => ({
   // * STATES
   favorites: [],
 
@@ -22,6 +23,7 @@ export const createFavoritesSlice: StateCreator<FavoritesSliceType & RecipiesSli
       set((state) => ({
         favorites: state.favorites.filter( favorite => favorite.idDrink !== recipe.idDrink)
       }))
+      createNotificationSlice(set, get, api).showNotification({ 'text': 'Bebida removida de favoritos', 'error': false })
     } else {
       // console.log('No existe');
       // * Al profe no le gusta, pero funciona:
@@ -32,6 +34,7 @@ export const createFavoritesSlice: StateCreator<FavoritesSliceType & RecipiesSli
       set((state) => ({
         favorites: [...state.favorites, recipe]
       }))
+      createNotificationSlice(set, get, api).showNotification({ 'text': 'Bebida agregada a los favoritos', 'error': false })
     }
     createRecipiesSlice(set, get, api ).closeModal()
     localStorage.setItem('favorites', JSON.stringify(get().favorites))
