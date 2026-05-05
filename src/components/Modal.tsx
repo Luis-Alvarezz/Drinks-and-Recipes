@@ -7,6 +7,7 @@ export default function Modal() {
   const modal = useAppStore(state => state.modal)
   const closeModal = useAppStore((state) => state.closeModal)
   const selectedRecipie = useAppStore((state) => state.selectedRecipie)
+  const handleClickFavorites = useAppStore(state => state.handleClickFavorite)
   
   const renderIngredients = () => {
     const ingredients: JSX.Element[] = []
@@ -92,7 +93,7 @@ export default function Modal() {
                     <button
                       type='button'
                       className='w-full rounded-lg bg-orange-500 p-3 font-bold uppercase text-white shadow-sm hover:bg-orange-600'
-                      
+                      onClick={() => handleClickFavorites(selectedRecipie)}
                     >
                       Agregar a Favoritos
                     </button>
