@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand"
 import { getCategories, getDetailsRecipieByID, getRecipies } from "../services/RecipeService"
 import type { CategoriesInfer, DrinksInfer, SearchFilterInfer, DrinkInfer, RecipeInfer } from "../types/types"
+import type { FavoritesSliceType } from "./favoritesSlice"
 
 
 export type RecipiesSliceType = {
@@ -14,7 +15,7 @@ export type RecipiesSliceType = {
   closeModal: () => void
 }
 
-export const createRecipiesSlice : StateCreator<RecipiesSliceType> = (set) => ({
+export const createRecipiesSlice : StateCreator<RecipiesSliceType & FavoritesSliceType, [], [], RecipiesSliceType> = (set) => ({
   // categories: [], // * STATE
   categories: {
     drinks: []
