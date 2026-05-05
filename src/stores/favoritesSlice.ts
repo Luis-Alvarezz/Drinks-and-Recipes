@@ -4,6 +4,7 @@ import type { RecipeInfer } from "../types/types"
 export type FavoritesSliceType = {
   favorites: RecipeInfer[] // * Array porque pueden ser 2 o mas favoritos
   handleClickFavorite: (recipe: RecipeInfer) => void
+  favoriteExists: (drinkID: RecipeInfer['idDrink']) => boolean
 }
 
 export const createFavoritesSlice: StateCreator<FavoritesSliceType> = (set, get) => ({
@@ -14,7 +15,7 @@ export const createFavoritesSlice: StateCreator<FavoritesSliceType> = (set, get)
   handleClickFavorite: (recipe) => {
     // console.log('Desde favoriteSlice, metodo handleClickFavorite',recipe);
     // console.log(get().favorites);
-    if (get().favorites.some(favorite => favorite.idDrink === recipe.idDrink)) {
+    if (get().favoriteExists(recipe.idDrink)) {
       // console.log('Si existe');
       set((state) => ({
         favorites: state.favorites.filter( favorite => favorite.idDrink !== recipe.idDrink)
@@ -30,5 +31,10 @@ export const createFavoritesSlice: StateCreator<FavoritesSliceType> = (set, get)
         favorites: [...state.favorites, recipe]
       }))
     }
+  },
+
+  // * Accion 2.- Verificar si ya esta agregado en Favoritos la bebida
+  favoriteExists: (drinkID) => {
+    return get().favorites.some(favorite => favorite.idDrink === drinkID)
   }
 })

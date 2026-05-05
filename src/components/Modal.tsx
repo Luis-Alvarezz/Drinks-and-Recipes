@@ -8,6 +8,7 @@ export default function Modal() {
   const closeModal = useAppStore((state) => state.closeModal)
   const selectedRecipie = useAppStore((state) => state.selectedRecipie)
   const handleClickFavorites = useAppStore(state => state.handleClickFavorite)
+  const favoriteExists = useAppStore(state => state.favoriteExists)
   
   const renderIngredients = () => {
     const ingredients: JSX.Element[] = []
@@ -95,7 +96,9 @@ export default function Modal() {
                       className='w-full rounded-lg bg-orange-500 p-3 font-bold uppercase text-white shadow-sm hover:bg-orange-600'
                       onClick={() => handleClickFavorites(selectedRecipie)}
                     >
-                      Agregar a Favoritos
+                      {
+                        favoriteExists(selectedRecipie.idDrink) ? 'Eliminar Favorito' : 'Agregar a Favoritos'
+                      }
                     </button>
                   </div>
                 </Dialog.Panel>
