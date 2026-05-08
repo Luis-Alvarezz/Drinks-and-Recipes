@@ -19,6 +19,7 @@ export default function Header() {
   // console.log('Desde Header, tomando resp API de Store:', categories);
   const categories = useAppStore(state => state.categories)
   const fetchSearchRecipies = useAppStore(state => state.fetchSearchRecipies)
+  const showNotification = useAppStore(state => state.showNotification)
 
   // ! Paso 1: Crear el STATE para los campos, en base a los 'name' del Formulario
   const initialState = {
@@ -60,6 +61,10 @@ export default function Header() {
 
     if (Object.values(searchFilters).includes('')) {
       setError(currentError)
+      showNotification({
+        text: 'Todos los campos son oblogatorios',
+        error: true
+      })
       setTimeout(() => {
         setError(initialState)
       }, 3000)
@@ -94,6 +99,14 @@ export default function Header() {
               }
             >
               Favoritos
+            </NavLink>
+            <NavLink
+              to="/generate-IA"
+              className={({isActive}) => 
+                isActive ? 'text-orange-500 uppercase font-bold' : 'text-white uppercase font-bold'
+              }
+            >
+              Generar con IA
             </NavLink>
           </nav>
         </div>
