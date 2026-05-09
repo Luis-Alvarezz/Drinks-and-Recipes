@@ -1,7 +1,25 @@
+import { useAppStore } from "../stores/useAppStore"
 
 
 export default function GenerateAI() {
+
+  const showNotification = useAppStore(state => state.showNotification)
   
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    
+    const form = new FormData(e.currentTarget) // ! Genera el OBJETO FormData en base al submit que ejecuto en el FORM
+    const promt = form.get('prompt') as string // * name del Form
+
+    if (promt.trim() === '') {
+      showNotification({
+        text: 'La busqueda no puede ir vacía',
+        error: true // * Muestra error | false -> Muestra correcto
+      })
+      return
+    }
+
+  }
   
   return (
     <>
@@ -9,7 +27,7 @@ export default function GenerateAI() {
 
       <div className="max-w-4xl mx-auto">
         <form  
-          onSubmit={() => {}}
+          onSubmit={(e) => {handleSubmit(e)}}
           className='flex flex-col space-y-3 py-10'
         >
           <div className="relative">
