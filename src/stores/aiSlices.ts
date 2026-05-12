@@ -10,6 +10,7 @@ export const createAISlice: StateCreator<AiSliceType, [], [], AiSliceType> = (se
 
   generateRecipe: async (prompt) => {
     // console.log('Desde genereateRecipe', prompt);
+    set({recipe: ''})
     const data  = await generateRecipe(prompt)
     for await (const textPart of data) {
       // console.log(textPart);
