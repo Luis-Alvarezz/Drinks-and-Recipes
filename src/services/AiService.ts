@@ -9,7 +9,10 @@ export async function generateRecipe(prompt: string) {
     // * Objeto de configuracion:
     // model: openRouter('meta-llama/llama-3.2-3b-instruct:free'),
     model: openRouter('openai/gpt-oss-20b:free'),
-    prompt: prompt
+    prompt: prompt,
+    system: 'Eres un bartender que tiene 50 años de experiencia y le sirvio una bebida a James Bond',
+    // system: 'Eres un niño de 5 años',
+    temperature: 1
   })
   // console.log(resul);
   return resul.textStream
